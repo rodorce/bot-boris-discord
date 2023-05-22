@@ -15,5 +15,6 @@ The project has:
 - commands folder which contains the files for handling each command logic.
 - services folder which contains the logic for fetching the data for multiple apis.
 
-## Useful links for development
+## Useful resources for development
 If you want to try to improve this project we can recommend you to read discord.js docs. You only need knowledge of Javascript to work on the project.
+- https://discordjs.guide/#before-you-begin
