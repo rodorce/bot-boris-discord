@@ -5,3 +5,15 @@ Bot for tracking stats of League of Legends.
 - Discord.js
 - Riot API
 - NodeJS
+
+## How to install
+Download the zip or clone the repository and then in the root source of the project execute the command ``npm install``
+
+## Project structure
+The project has:
+- index.js which contains the logic to initialize the bot and the ability to listen and respond to events.
+- commands folder which contains the files for handling each command logic.
+- services folder which contains the logic for fetching the data for multiple apis.
+
+## Useful links for development
+If you want to try to improve this project we can recommend you to read discord.js docs. You only need knowledge of Javascript to work on the project.
