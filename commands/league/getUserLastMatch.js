@@ -22,6 +22,12 @@ module.exports = {
         let assists = `${fetchLastMatch.assists}`
         let gameMode = `${fetchLastMatch.gameMode}`
         let champion = `${fetchLastMatch.champion}`
+        const description = (kills, deaths) => {
+            return parseInt(kills) > parseInt(deaths) ? 
+            "Que god, quedó con KD positivo cosa que no se ve todos los días así que sorprendente, buen trabajo." 
+            : "Eres una basura con ese KD negativo, un minion aportó más que tú al equipo, ya desinstala el juego y ponte a jugar Roblox."
+        }
+        console.log(description(kills,deaths))
         let image = `https://ddragon.leagueoflegends.com/cdn/13.10.1/img/champion/${fetchLastMatch.champion}.png`
         let profileIcon = `http://ddragon.leagueoflegends.com/cdn/13.10.1/img/profileicon/${fetchLastMatch.profileIcon}.png`
         var itemId = ''
@@ -31,7 +37,7 @@ module.exports = {
             .setTitle(`Estadísticas de ${bold(userIdChatInput)} en su última partida`)
             .setURL(`https://www.op.gg/summoners/lan/${userIdChatInput}`)
             .setAuthor({ name: userIdChatInput, iconURL: profileIcon, url: `https://www.op.gg/summoners/lan/${userIdChatInput}` })
-            .setDescription()
+            .setDescription(description(kills,deaths))
             .setThumbnail(image)
             .addFields(
                 { name: bold('Asesinatos'), value: kills, inline: true },
@@ -42,7 +48,7 @@ module.exports = {
                 { name: bold('Modo de juego'), value: gameMode, inline: true },
             )
             .setTimestamp()
-            
+
         const embeds = [
             gameInfo,
             new EmbedBuilder().setURL(`https://www.op.gg/summoners/lan/${userIdChatInput}`).setImage(fetchLastMatch.items[0] != 0 ? itemsUrl(fetchLastMatch.items[0]) : 'https://upload.wikimedia.org/wikipedia/commons/8/89/HD_transparent_picture.png'),
