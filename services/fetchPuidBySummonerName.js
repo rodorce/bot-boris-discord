@@ -1,6 +1,8 @@
 const fetchPuidBySummonerName = async (summonerName) => {
+  summonerName = summonerName.replaceAll(' ', '%20')
   try {
     const url = `https://la1.api.riotgames.com/lol/summoner/v4/summoners/by-name/${summonerName}`;
+    console.log('TEST',url)
     const response = await fetch(url, {
       headers: {
         'X-Riot-Token': process.env.RIOT_API_KEY
