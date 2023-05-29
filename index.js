@@ -1,6 +1,7 @@
 const fs = require('node:fs');
 const path = require('node:path');
 const { Client, Collection, Events, GatewayIntentBits } = require('discord.js');
+const getPlayerInMatch = require('./messages/getPlayerInMatch')
 require('dotenv').config()
 
 const client = new Client({ intents: [GatewayIntentBits.Guilds] });
@@ -26,6 +27,7 @@ for (const folder of commandFolders) {
 
 client.once(Events.ClientReady, c => {
 	console.log(`Ready! Logged in as ${c.user.tag}`);
+	getPlayerInMatch(client)
 });
 
 client.login(process.env.DISCORD_TOKEN);

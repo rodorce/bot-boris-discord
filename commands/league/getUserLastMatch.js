@@ -13,7 +13,8 @@ module.exports = {
                 .setName('summoner')
                 .setDescription('Nombre de invocador')),
     async execute(interaction) {
-        const userIdChatInput = interaction.options.getString('summoner')
+        const userIdChatInput = interaction.options.getString('summoner').replaceAll(' ', '%20')
+        console.log('USER ID CHAT INPUT', userIdChatInput)
         let userPUID = await fetchPuidBySummonerName(userIdChatInput)
         let last20Matches = await fetchMatchesByPUID(userPUID)
         let fetchLastMatch = await fetchMatch(last20Matches[0], userIdChatInput)
@@ -21,6 +22,7 @@ module.exports = {
         let deaths = `${fetchLastMatch.deaths}`
         let assists = `${fetchLastMatch.assists}`
         let gameMode = `${fetchLastMatch.gameMode}`
+        let gameResult = `${fetchLastMatch.gameResult ? 'Victoria' : 'Derrota'} `
         let champion = `${fetchLastMatch.champion}`
         const description = (kills, deaths) => {
             return parseInt(kills) > parseInt(deaths) ? 
@@ -34,9 +36,9 @@ module.exports = {
         let itemsUrl = (itemId) => `http://ddragon.leagueoflegends.com/cdn/13.10.1/img/item/${itemId}.png`
         const gameInfo = new EmbedBuilder()
             .setColor(0x0099FF)
-            .setTitle(`Estadísticas de ${bold(userIdChatInput)} en su última partida`)
+            .setTitle(`Estadísticas de ${bold(userIdChatInput.replaceAll('%20',' '))} en su última partida`)
             .setURL(`https://www.op.gg/summoners/lan/${userIdChatInput}`)
-            .setAuthor({ name: userIdChatInput, iconURL: profileIcon, url: `https://www.op.gg/summoners/lan/${userIdChatInput}` })
+            .setAuthor({ name: userIdChatInput.replaceAll('%20',' '), iconURL: profileIcon, url: `https://www.op.gg/summoners/lan/${userIdChatInput}` })
             .setDescription(description(kills,deaths))
             .setThumbnail(image)
             .addFields(
@@ -46,9 +48,9 @@ module.exports = {
             .addFields({ name: bold('Asistencias'), value: assists, inline: true })
             .addFields(
                 { name: bold('Modo de juego'), value: gameMode, inline: true },
+                { name: bold('Resultado'), value: gameResult, inline: true}
             )
             .setTimestamp()
-
         const embeds = [
             gameInfo,
             new EmbedBuilder().setURL(`https://www.op.gg/summoners/lan/${userIdChatInput}`).setImage(fetchLastMatch.items[0] != 0 ? itemsUrl(fetchLastMatch.items[0]) : 'https://upload.wikimedia.org/wikipedia/commons/8/89/HD_transparent_picture.png'),
